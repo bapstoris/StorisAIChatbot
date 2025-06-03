@@ -1,3 +1,4 @@
+from flask import Flask, render_template, request, jsonify
 from langchain_community.chat_models import ChatOpenAI  # Use langchain_community, not langchain.chat_models
 from langchain.prompts import PromptTemplate
 from langchain_core.runnables import RunnableSequence  # New pattern replacing LLMChain
@@ -41,3 +42,19 @@ def query_llm(question):
 while True:
     user_question = input("Ask me about Landon Hotel: ")
     query_llm(user_question)
+
+app = Flask(__name__) 
+
+@app.route("/") 
+def index(): 
+    return render_template("index.html") 
+
+@app.route("/chatbot", methods=["POST"]) 
+def chatbot(): 
+    data = request.get_json() 
+    question = data["question"] 
+    response = query_llm(question) 
+    return jsonify({"response": response}) 
+
+if __name__ == "__main__": 
+    app.run(debug=True)
