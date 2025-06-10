@@ -35,7 +35,7 @@ def extract_text_from_pdf(pdf_file_path):
 
 # Directory containing PDFs
 pdf_dir = "PDFs"
-output_file = "combined_pdf_text.txt"
+output_file = "MainFiles/combined_pdf_text.txt"
 
 all_text = ""
 

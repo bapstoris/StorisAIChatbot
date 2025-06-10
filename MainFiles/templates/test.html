@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello Page</title>
+</head>
+<body>
+  <h1>Hello</h1>
+
+  <!-- =============== Start of Chatbot Widget =============== -->
+  <div id="storis-chatbot" style="max-width: 600px; margin: 20px auto; font-family: Arial, sans-serif;">
+    <!-- Chat Log -->
+    <div id="chat-log" 
+         style="
+           border: 1px solid #ccc; 
+           border-radius: 4px; 
+           height: 400px; 
+           padding: 10px; 
+           overflow-y: auto;
+           background: #fafafa;
+           margin-bottom: 10px;
+         ">
+      <!-- Messages will be appended here -->
+    </div>
+
+    <!-- Input Area -->
+    <div style="display: flex;">
+      <input type="text" 
+             id="user-input" 
+             placeholder="Type here..." 
+             style="
+               flex: 1; 
+               padding: 8px; 
+               border: 1px solid #ccc; 
+               border-radius: 4px 0 0 4px;
+               font-size: 14px;
+             ">
+      <button id="send-btn" 
+              style="
+                padding: 8px 12px; 
+                border: 1px solid #007bff; 
+                background: #007bff; 
+                color: white; 
+                font-size: 14px; 
+                border-radius: 0 4px 4px 0;
+                cursor: pointer;
+              ">
+        Send
+      </button>
+    </div>
+  </div>
+  <!-- =============== End of Chatbot Widget =============== -->
+<script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</body>
+</html>

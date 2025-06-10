@@ -1,3 +1,7 @@
+'''This code builds a simple question-answering chatbot using LangChain, OpenAI embeddings, 
+FAISS (a vector search engine), and GPT (gpt-3.5-turbo). 
+It allows you to ask questions about a set of combined PDF documents (already converted to text) and get intelligent answers.'''
+
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
