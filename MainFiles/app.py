@@ -6,24 +6,19 @@ from flask import Flask, request, jsonify, render_template
 # Toggle this to False once you're ready to hit the real LLM/RAG
 USE_MOCK = True
 
-# Import your prompt-builder and LLM wrapper
-from pdfAIprompt import build_prompt
-from qa_engine import get_answer
-from qa_engine import get_relevant_context
-
-# If you're doing RAG locally (vectorstore + chain), import/setup here
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_community.chat_models import ChatOpenAI
-from langchain.chains import RetrievalQA
-
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
+# Import prompt builder (always safe)
+from pdfAIprompt import build_prompt
+
+# Only import heavy modules if not mocking (avoids API calls on import)
+if not USE_MOCK:
+    from qa_engine import get_answer, get_relevant_context
+    # Optionally, initialize your vectorstore or other RAG components here
 
 @app.route('/')
 def index():
-    return render_template('test.html')  # or 'index.html'—whatever you named it
+    return render_template('test.html')  # Update if using a different template
 
 
 @app.route('/chatbot', methods=['POST'])
@@ -34,23 +29,16 @@ def chatbot():
         return jsonify({'response': 'Please ask a question.'}), 400
 
     if USE_MOCK:
-        # Just echo back for local testing
-        mock_response = f"[Mock reply] You asked: {question}"
-        return jsonify({'response': mock_response})
+        return jsonify({'response': f"[Mock reply] You asked: {question}"})
 
-    context = get_relevant_context(question)
-    # Build the full prompt (persona + PDF context + user question)
-    prompt = build_prompt(question, context)
-
-    # If you want pure RAG via langchain:
-    # answer = qa_chain.run(question)
-
-    # Otherwise, send the wrapped prompt to your qa_engine
-    answer = get_answer(prompt)
-
-    return jsonify({'response': answer})
+    try:
+        context = get_relevant_context(question)
+        prompt = build_prompt(question, context)
+        answer = get_answer(prompt)
+        return jsonify({'response': answer})
+    except Exception as e:
+        return jsonify({'response': f"Error: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
-    # In production you might set host='0.0.0.0' and grab PORT from env
     app.run(debug=True)
