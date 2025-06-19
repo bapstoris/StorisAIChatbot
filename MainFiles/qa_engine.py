@@ -3,7 +3,7 @@
 import os
 import openai
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
