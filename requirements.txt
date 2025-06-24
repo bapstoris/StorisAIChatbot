@@ -1,6 +1,12 @@
-flask
-openai
-langchain
-langchain-community
-langchain-openai
-faiss-cpu
+Flask==3.1.1
+openai==1.88.0
+langchain==0.3.25
+langchain-openai==0.3.24
+langchain-community==0.3.24
+langchain-core==0.3.65
+langchain-text-splitters==0.3.8
+faiss-cpu==1.11.0
+tiktoken==0.9.0
+requests==2.32.3
+python-dotenv==1.1.0
+gunicorn==22.0.0  # for production server
