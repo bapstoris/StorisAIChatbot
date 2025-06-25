@@ -2,9 +2,10 @@
 
 import os
 from flask import Flask, request, jsonify, render_template
+import traceback
 
 # Toggle this to False once you're ready to hit the real LLM/RAG
-USE_MOCK = True
+USE_MOCK = False
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -37,6 +38,8 @@ def chatbot():
         answer = get_answer(prompt)
         return jsonify({'response': answer})
     except Exception as e:
+        print("Exception in /chatbot endpoint:")
+        traceback.print_exc()
         return jsonify({'response': f"Error: {str(e)}"}), 500
 
 
